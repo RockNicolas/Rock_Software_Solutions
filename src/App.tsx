@@ -1,0 +1,67 @@
+import { useCallback, useEffect, useState } from 'react';
+import Lenis from 'lenis';
+import { AnimatePresence, MotionConfig, motion, useReducedMotion, useScroll, useSpring } from 'motion/react';
+import Intro from './components/Intro';
+import Cursor from './components/Cursor';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import StackStrip from './components/StackStrip';
+import Statement from './components/Statement';
+import Services from './components/Services';
+import Sectors from './components/Sectors';
+import Layers from './components/Layers';
+import Cases from './components/Cases';
+import Builder from './components/Builder';
+import SectionNav from './components/SectionNav';
+import Founder from './components/Founder';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+import { IntroContext } from './lib/intro';
+import { useMedia } from './lib/hooks';
+
+export default function App() {
+  const reduced = useReducedMotion();
+  const finePointer = useMedia('(pointer: fine)');
+  const [ready, setReady] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const finishIntro = useCallback(() => setReady(true), []);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
+
+  // The page stays still while the intro plays.
+  useEffect(() => {
+    document.documentElement.classList.toggle('is-loading', !ready);
+  }, [ready]);
+
+  // Smooth, inertial scrolling (skipped for people who prefer less motion).
+  useEffect(() => {
+    if (reduced || !ready) return;
+    const lenis = new Lenis({ autoRaf: true, anchors: { offset: -90 }, lerp: 0.1 });
+    return () => lenis.destroy();
+  }, [reduced, ready]);
+
+  return (
+    <MotionConfig reducedMotion="user">
+      <IntroContext.Provider value={ready}>
+        <AnimatePresence>{!ready && <Intro onDone={finishIntro} />}</AnimatePresence>
+        {finePointer && !reduced && ready && <Cursor />}
+        <a className="skip" href="#conteudo">Pular para o conteúdo</a>
+        <motion.div className="scroll-progress" style={{ scaleX: progress }} aria-hidden="true" />
+        <Header />
+        <SectionNav />
+        <main id="conteudo">
+          <Hero />
+          <StackStrip />
+          <Statement />
+          <Services />
+          <Sectors />
+          <Layers />
+          <Cases />
+          <Builder />
+          <Founder />
+          <Contact />
+        </main>
+        <Footer />
+      </IntroContext.Provider>
+    </MotionConfig>
+  );
+}
