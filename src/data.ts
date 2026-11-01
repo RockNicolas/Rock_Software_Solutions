@@ -211,26 +211,41 @@ export const modules: { id: ModuleId; label: string }[] = [
 ];
 
 export interface Teaser {
-  code: string;
-  title: string;
+  code: 'aprovacoes' | 'suprimentos' | 'automacao';
+  /** Public name. Empty means the project stays locked. */
+  name: string | null;
+  /** How far along the team is, 0–100. */
+  progress: number;
+  /** A line that stays out of focus behind the lock. */
   hint: string;
+  /** Short words that tease, without saying what the product does. */
+  clues?: string[];
+  /** What shows on hover: a phone, a desktop window (both with demo data) or a rough sketch. */
+  peek: { kind: 'phone' | 'desktop'; src: string; alt: string } | { kind: 'sketch' };
 }
 
-/** Projects being built right now. Kept deliberately vague: hints, not names. */
+/** What the team is producing. Only Aprovetech is named. */
 export const teasers: Teaser[] = [
   {
     code: 'aprovacoes',
-    title: 'Aprovações sem papel',
-    hint: 'Do canteiro ao escritório, sem caçar assinatura.',
+    name: 'Aprovetech',
+    progress: 85,
+    hint: 'O que ele faz de fato, a equipe ainda segura.',
+    clues: ['No celular', 'No Sienge', 'Sem o computador'],
+    peek: { kind: 'phone', src: '/previews/aprovetech.jpg', alt: 'Tela do app de aprovações no celular, com dados fictícios' },
   },
   {
     code: 'suprimentos',
-    title: 'Suprimentos em tempo real',
-    hint: 'O que foi pedido, o que atrasou e para onde vai o dinheiro da obra.',
+    name: null,
+    progress: 70,
+    hint: 'Ainda não dá para abrir este aqui.',
+    peek: { kind: 'desktop', src: '/previews/painel.jpg', alt: 'Painel de compras e fornecedores no computador, com dados fictícios' },
   },
   {
     code: 'automacao',
-    title: 'Automação de ponta a ponta',
-    hint: 'Compras, ERP, banco e BI conversando sozinhos.',
+    name: null,
+    progress: 50,
+    hint: 'Este a equipe ainda não solta.',
+    peek: { kind: 'sketch' },
   },
 ];
