@@ -76,16 +76,47 @@ function useDragSpin(enabled: boolean) {
   return spin;
 }
 
+/** Brightest value in env-studio.png; the image is stored as 8-bit sRGB scaled by it. */
+const ENV_MAX = 2.2;
+
 /**
- * Lights only. A baked reflection environment (PMREM) looked slightly glossier but its GGX shader
- * froze the main thread for about 2 seconds on every load, so the brightness is carried by the lights instead.
+ * Studio reflections come from a pre-baked image (public/assets/env-studio.png, a PMREM cube-UV map).
+ * Generating it at load with PMREMGenerator froze the main thread for about 2 seconds on every visit.
  */
-function StudioLight() {
+function StudioLight({ onReady }: { onReady: () => void }) {
+  const scene = useThree((s) => s.scene);
+  useEffect(() => {
+    let alive = true;
+    let tex: THREE.Texture | null = null;
+    new THREE.TextureLoader().load(
+      '/assets/env-studio.png',
+      (t) => {
+        if (!alive) return t.dispose();
+        t.mapping = THREE.CubeUVReflectionMapping;
+        t.colorSpace = THREE.SRGBColorSpace;
+        t.flipY = false;
+        t.generateMipmaps = false;
+        t.minFilter = t.magFilter = THREE.LinearFilter;
+        t.needsUpdate = true;
+        tex = t;
+        scene.environment = t;
+        scene.environmentIntensity = ENV_MAX;
+        onReady();
+      },
+      undefined,
+      () => alive && onReady(), // no reflections is fine: the lights still light the cube
+    );
+    return () => {
+      alive = false;
+      if (tex) scene.environment = null;
+      tex?.dispose();
+    };
+  }, [scene, onReady]);
   return (
     <>
-      <ambientLight intensity={1.35} />
-      <directionalLight position={[4, 7, 6]} intensity={2.1} />
-      <directionalLight position={[-7, 2, 6]} intensity={1.1} color="#DCE9F8" />
+      <ambientLight intensity={0.85} />
+      <directionalLight position={[4, 7, 6]} intensity={1.45} />
+      <directionalLight position={[-7, 2, 6]} intensity={0.8} color="#DCE9F8" />
     </>
   );
 }
@@ -185,10 +216,12 @@ function Scene({ mode, explode, active, onReady }: Cube3DProps & { onReady: () =
   const scene = useThree((s) => s.scene);
   const camera = useThree((s) => s.camera);
   const [materials, setMaterials] = useState<THREE.MeshPhysicalMaterial[][] | null>(null);
+  const [envReady, setEnvReady] = useState(false);
+  const onEnv = useCallback(() => setEnvReady(true), []);
 
   // Link the shaders in parallel, off the main thread. Letting the first frame do it freezes the page for seconds.
   useEffect(() => {
-    if (!materials) return;
+    if (!materials || !envReady) return;
     let alive = true;
     gl.compileAsync(scene, camera)
       .catch(() => undefined)
@@ -196,7 +229,7 @@ function Scene({ mode, explode, active, onReady }: Cube3DProps & { onReady: () =
     return () => {
       alive = false;
     };
-  }, [materials, gl, scene, camera, onReady]);
+  }, [materials, envReady, gl, scene, camera, onReady]);
 
   useEffect(() => {
     let alive = true;
@@ -226,7 +259,7 @@ function Scene({ mode, explode, active, onReady }: Cube3DProps & { onReady: () =
 
   return (
     <>
-      <StudioLight />
+      <StudioLight onReady={onEnv} />
       <Rig mode={mode} explode={explode}>
         {layers}
       </Rig>
