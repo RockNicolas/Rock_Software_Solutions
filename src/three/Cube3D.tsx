@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import type { MotionValue } from 'motion/react';
@@ -76,47 +76,16 @@ function useDragSpin(enabled: boolean) {
   return spin;
 }
 
-function buildStudio() {
-  const studio = new THREE.Scene();
-  studio.background = new THREE.Color('#081A2C');
-  const panel = (w: number, h: number, color: string, intensity: number, pos: [number, number, number]) => {
-    const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(intensity), side: THREE.DoubleSide });
-    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
-    mesh.position.set(...pos);
-    mesh.lookAt(0, 0, 0);
-    studio.add(mesh);
-  };
-  panel(8, 2, '#FFFFFF', 2.2, [0, 5, 2]);
-  panel(3, 6, '#A9CBF5', 1.2, [5, 1, 4]);
-  panel(3, 6, '#1D5BB5', 0.8, [-5, 0, 3]);
-  return studio;
-}
-
+/**
+ * Lights only. A baked reflection environment (PMREM) looked slightly glossier but its GGX shader
+ * froze the main thread for about 2 seconds on every load, so the brightness is carried by the lights instead.
+ */
 function StudioLight() {
-  const gl = useThree((s) => s.gl);
-  const scene = useThree((s) => s.scene);
-  useEffect(() => {
-    const pmrem = new THREE.PMREMGenerator(gl);
-    const studio = buildStudio();
-    const env = pmrem.fromScene(studio, 0.02).texture;
-    studio.traverse((o) => {
-      if (o instanceof THREE.Mesh) {
-        o.geometry.dispose();
-        (o.material as THREE.Material).dispose();
-      }
-    });
-    scene.environment = env;
-    return () => {
-      scene.environment = null;
-      env.dispose();
-      pmrem.dispose();
-    };
-  }, [gl, scene]);
   return (
     <>
-      <ambientLight intensity={0.85} />
-      <directionalLight position={[4, 7, 6]} intensity={1.45} />
-      <directionalLight position={[-7, 2, 6]} intensity={0.8} color="#DCE9F8" />
+      <ambientLight intensity={1.35} />
+      <directionalLight position={[4, 7, 6]} intensity={2.1} />
+      <directionalLight position={[-7, 2, 6]} intensity={1.1} color="#DCE9F8" />
     </>
   );
 }
@@ -211,8 +180,24 @@ function Rig({ mode, explode, children }: { mode: CubeMode; explode?: MotionValu
   );
 }
 
-function Scene({ mode, explode, active }: Cube3DProps) {
+function Scene({ mode, explode, active, onReady }: Cube3DProps & { onReady: () => void }) {
+  const gl = useThree((s) => s.gl);
+  const scene = useThree((s) => s.scene);
+  const camera = useThree((s) => s.camera);
   const [materials, setMaterials] = useState<THREE.MeshPhysicalMaterial[][] | null>(null);
+
+  // Link the shaders in parallel, off the main thread. Letting the first frame do it freezes the page for seconds.
+  useEffect(() => {
+    if (!materials) return;
+    let alive = true;
+    gl.compileAsync(scene, camera)
+      .catch(() => undefined)
+      .finally(() => alive && onReady());
+    return () => {
+      alive = false;
+    };
+  }, [materials, gl, scene, camera, onReady]);
+
   useEffect(() => {
     let alive = true;
     document.fonts.load('700 100px "Space Grotesk"').finally(() => {
@@ -251,16 +236,18 @@ function Scene({ mode, explode, active }: Cube3DProps) {
 
 export default function Cube3D(props: Cube3DProps) {
   const { mode, running = true, label, onInteract } = props;
+  const [compiled, setCompiled] = useState(false);
+  const onReady = useCallback(() => setCompiled(true), []);
   return (
     <div className={`cube3d cube3d-${mode}`} role="img" aria-label={label} onPointerDown={onInteract}>
       <Canvas
         dpr={[1, 1.5]}
         flat
-        frameloop={running ? 'always' : 'never'}
+        frameloop={running && compiled ? 'always' : 'never'}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         camera={{ position: [0, 0, mode === 'hero' ? 9 : 10.5], fov: 28 }}
       >
-        <Scene {...props} />
+        <Scene {...props} onReady={onReady} />
       </Canvas>
     </div>
   );
