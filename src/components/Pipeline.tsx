@@ -144,7 +144,7 @@ function Peek({ peek }: { peek: Teaser['peek'] }) {
           <img src={peek.src} alt="" loading="lazy" decoding="async" />
         </span>
       )}
-      <small>{peek.kind === 'sketch' ? 'Esboço' : 'Um vislumbre'}</small>
+      <small>{peek.kind === 'sketch' ? 'Esboço' : 'Uma prévia'}</small>
     </span>
   );
 }
