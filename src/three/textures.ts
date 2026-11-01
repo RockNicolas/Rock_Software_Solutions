@@ -10,7 +10,8 @@ const C = {
   white: '#FFFFFF',
 };
 
-const SIZE = 1024;
+// 512 px is plenty for a cube a few hundred pixels wide, and uploads a quarter of the texture memory.
+const SIZE = 512;
 
 function makeCanvas() {
   const c = document.createElement('canvas');
@@ -66,7 +67,7 @@ function circuit() {
     let px = Math.floor(rnd() * 16) * cell + cell / 2;
     let py = Math.floor(rnd() * 16) * cell + cell / 2;
     x.strokeStyle = `rgba(127,177,236,${0.25 + rnd() * 0.45})`;
-    x.lineWidth = 6;
+    x.lineWidth = SIZE / 170;
     x.beginPath();
     x.moveTo(px, py);
     const steps = 2 + Math.floor(rnd() * 4);
@@ -79,19 +80,19 @@ function circuit() {
     x.stroke();
     x.fillStyle = C.sky;
     x.beginPath();
-    x.arc(px, py, 11, 0, Math.PI * 2);
+    x.arc(px, py, SIZE / 93, 0, Math.PI * 2);
     x.fill();
   }
   x.strokeStyle = 'rgba(127,177,236,0.35)';
-  x.lineWidth = 10;
-  x.strokeRect(40, 40, SIZE - 80, SIZE - 80);
+  x.lineWidth = SIZE / 100;
+  x.strokeRect(SIZE / 25, SIZE / 25, SIZE - SIZE / 12.5, SIZE - SIZE / 12.5);
   return c;
 }
 
 function texture(canvas: HTMLCanvasElement, opts: { slice?: number; rotation?: number } = {}) {
   const t = new THREE.CanvasTexture(canvas);
   t.colorSpace = THREE.SRGBColorSpace;
-  t.anisotropy = 8;
+  t.anisotropy = 4;
   if (opts.slice !== undefined) {
     t.repeat.set(1, 1 / 3);
     t.offset.set(0, opts.slice / 3);

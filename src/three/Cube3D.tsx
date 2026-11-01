@@ -254,7 +254,7 @@ export default function Cube3D(props: Cube3DProps) {
   return (
     <div className={`cube3d cube3d-${mode}`} role="img" aria-label={label} onPointerDown={onInteract}>
       <Canvas
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
         flat
         frameloop={running ? 'always' : 'never'}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}

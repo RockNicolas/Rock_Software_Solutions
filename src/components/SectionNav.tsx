@@ -9,7 +9,7 @@ const sections = [
   { id: 'processo', label: 'Como trabalhamos' },
   { id: 'projetos', label: 'Projetos' },
   { id: 'em-breve', label: 'Em breve' },
-  { id: 'monte', label: 'Monte o seu' },
+  { id: 'monte', label: 'Monte o sistema' },
   { id: 'sobre', label: 'Sobre' },
   { id: 'contato', label: 'Contato' },
 ];

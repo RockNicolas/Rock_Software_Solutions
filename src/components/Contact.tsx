@@ -40,7 +40,7 @@ export default function Contact() {
         <div className="contact-grid">
           <div className="contact-side">
             <Reveal>
-              <p className="lead">Conte o que você precisa. A gente responde no WhatsApp e a primeira conversa é sem compromisso.</p>
+              <p className="lead">Conte o que você precisa. Respondemos pelo WhatsApp e a primeira conversa é sem compromisso.</p>
             </Reveal>
             <ul className="channels">
               {channels.map((c, i) => (
@@ -89,7 +89,7 @@ export default function Contact() {
               <div className="fields">
                 <label>
                   <span>Seu nome</span>
-                  <input value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" placeholder="Como podemos te chamar" />
+                  <input value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" placeholder="Nome e sobrenome" />
                 </label>
                 <label>
                   <span>Empresa (opcional)</span>
@@ -97,7 +97,7 @@ export default function Contact() {
                 </label>
                 <label className="full">
                   <span>Sua ideia em poucas linhas</span>
-                  <textarea value={idea} onChange={(e) => setIdea(e.target.value)} rows={3} placeholder="Ex.: quero controlar os pedidos da loja e avisar o cliente pelo WhatsApp" />
+                  <textarea value={idea} onChange={(e) => setIdea(e.target.value)} rows={3} placeholder="Ex.: controlar os pedidos da loja e notificar o cliente pelo WhatsApp" />
                 </label>
               </div>
 
@@ -114,7 +114,7 @@ export default function Contact() {
                     <ChatIcon /> Enviar pelo WhatsApp
                   </button>
                 </Magnetic>
-                <p className="brief-note">Abre o WhatsApp com a mensagem pronta. Nada é enviado sem você confirmar.</p>
+                <p className="brief-note">Abre o WhatsApp com a mensagem pronta. Nada é enviado sem a sua confirmação.</p>
               </div>
             </form>
           </Reveal>

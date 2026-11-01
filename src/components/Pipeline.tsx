@@ -50,7 +50,7 @@ export default function Pipeline() {
             O que vem por aí
           </h2>
           <p className="pipeline-text">
-            A equipe está em desenvolvimento de três projetos para construtora. Todos seguem no cadeado, integrados ao <strong>Sienge</strong>.
+            A equipe está desenvolvendo três projetos para construtoras, todos integrados ao <strong>Sienge</strong> e ainda sob sigilo.
           </p>
         </Reveal>
 

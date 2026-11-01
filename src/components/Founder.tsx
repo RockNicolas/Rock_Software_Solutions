@@ -4,7 +4,7 @@ import Reveal, { SplitHeading } from './Reveal';
 import { LogoCube } from './Icons';
 import { useCardReveal, useScrollProgress } from '../lib/hooks';
 
-const QUOTE = 'Cada empresa funciona de um jeito. Sistema genérico quase nunca resolve de verdade, e foi por isso que eu criei a Rock.';
+const QUOTE = 'Cada empresa opera de um jeito. Sistema genérico raramente resolve de fato, e foi por isso que criei a Rock.';
 
 function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
   const opacity = useTransform(progress, range, [0.16, 1]);
@@ -64,7 +64,7 @@ export default function Founder() {
           <SplitHeading text="Quem está por trás da Rock" />
           <ScrollQuote />
           <Reveal>
-            <p className="lead">Sou desenvolvedor há 4 anos. Criei a Rock para fazer tecnologia sob medida, pensada para a realidade de cada negócio, e acompanho cada projeto de perto.</p>
+            <p className="lead">Sou desenvolvedor há 4 anos. Criei a Rock para desenvolver tecnologia sob medida, aderente à realidade de cada negócio, e acompanho cada projeto de perto.</p>
             <p className="signature">
               Nicolas
               <span>Fundador da Rock Software Solutions</span>

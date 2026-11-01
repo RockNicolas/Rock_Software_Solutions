@@ -176,7 +176,7 @@ export default function Builder() {
         <div className="builder-head">
           <SplitHeading text="Monte o seu sistema" />
           <Reveal delay={0.12}>
-            <p className="lead">Escolha as peças e veja o sistema ganhar forma. É só um rascunho, mas já dá uma boa ideia de como ele pode ficar.</p>
+            <p className="lead">Escolha os módulos e veja o sistema ganhar forma. É uma simulação ilustrativa, mas já dá uma boa ideia do resultado.</p>
           </Reveal>
         </div>
 

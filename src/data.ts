@@ -25,26 +25,26 @@ export const services: Service[] = [
   {
     id: 'sistemas',
     title: 'Sistemas sob medida',
-    summary: 'Gestão, financeiro, estoque e aprovações construídos em cima do jeito que a sua empresa já trabalha.',
-    points: ['Painéis com os números do seu negócio', 'Acesso separado por equipe', 'Relatórios em PDF e Excel'],
+    summary: 'Sistemas de gestão, financeiro, estoque e aprovações desenvolvidos a partir dos processos da sua empresa.',
+    points: ['Dashboards com os indicadores do seu negócio', 'Controle de acesso por perfil e equipe', 'Relatórios em PDF e Excel'],
   },
   {
     id: 'sites',
     title: 'Sites e landing pages',
-    summary: 'Páginas rápidas e bem desenhadas, fáceis de achar no Google e feitas para virar conversa no WhatsApp.',
-    points: ['Design exclusivo da sua marca', 'Carrega rápido no celular', 'Pronto para Google e redes sociais'],
+    summary: 'Páginas de alto desempenho, otimizadas para SEO e voltadas à conversão de visitas em contatos no WhatsApp.',
+    points: ['Design exclusivo da sua marca', 'Carregamento rápido em dispositivos móveis', 'SEO e compartilhamento em redes sociais'],
   },
   {
     id: 'apps',
     title: 'Aplicativos',
-    summary: 'Apps para a sua equipe em campo ou para os seus clientes, no celular e no computador.',
-    points: ['Instala direto pelo navegador', 'Avisos e notificações', 'Fotos, assinatura e localização'],
+    summary: 'Aplicativos para a sua equipe em campo ou para os seus clientes, em celular e computador.',
+    points: ['Instalação direta pelo navegador (PWA)', 'Notificações push', 'Captura de fotos, assinatura digital e geolocalização'],
   },
   {
     id: 'integracoes',
     title: 'Integrações',
-    summary: 'Conectamos ERP, banco, meios de pagamento e WhatsApp para os dados andarem sozinhos.',
-    points: ['ERPs como o Sienge', 'Cobrança e baixa automáticas', 'Mensagens automáticas no WhatsApp'],
+    summary: 'Integramos ERP, bancos, meios de pagamento e WhatsApp para que os dados fluam sem retrabalho.',
+    points: ['Integração com ERPs, como o Sienge', 'Cobrança e baixa automática de títulos', 'Mensagens automáticas via API do WhatsApp'],
   },
 ];
 
@@ -57,15 +57,15 @@ export interface Layer {
 export const layers: Layer[] = [
   {
     title: 'Planejamento',
-    text: 'Entendemos o seu processo e o problema que precisa ser resolvido. Você recebe escopo, prazo e valor por escrito antes de começar.',
+    text: 'Levantamos os requisitos e mapeamos o seu processo. Você recebe escopo, cronograma e valor por escrito antes do início do desenvolvimento.',
   },
   {
     title: 'Desenvolvimento',
-    text: 'Construímos em etapas curtas. Você acompanha, testa cada parte e pede ajustes antes da entrega final.',
+    text: 'Desenvolvemos em ciclos curtos. Você acompanha, valida cada entrega e solicita ajustes antes da versão final.',
   },
   {
     title: 'Suporte',
-    text: 'Depois do lançamento a gente continua junto: corrige, ajusta e evolui o sistema conforme a sua empresa cresce.',
+    text: 'Após o lançamento, seguimos ao seu lado: corrigimos, ajustamos e evoluímos o sistema conforme a sua empresa cresce.',
   },
 ];
 
@@ -95,6 +95,8 @@ export const KARGO_SITE = { url: 'https://www.kargo-web.com/', label: 'kargo-web
 export const KARGO_PANEL = {
   video: '/assets/video/kargo-painel.mp4',
   ratio: '1366 / 606',
+  /** Pre-blurred still that lights the background of the statement scene (a live blurred video was too heavy). */
+  ambient: '/assets/video/kargo-painel-ambient.jpg',
   overview: { segment: [0, 15.4] as const, poster: '/assets/video/kargo-painel-poster.jpg' },
   details: { segment: [15.6, 37.2] as const, poster: '/assets/video/kargo-painel-detalhes-poster.jpg' },
 };
@@ -106,11 +108,11 @@ export const cases: Case[] = [
     accent: '#F5922F',
     ambient: '#130F0C',
     headline: 'Gestão de ativos, equipamentos e obras em um só lugar.',
-    description: 'Feito para construtoras que precisam controlar veículos, máquinas, manutenção, documentação e almoxarifado sem depender de planilha.',
+    description: 'Feito para construtoras que precisam controlar veículos, máquinas, manutenção, documentação e almoxarifado sem depender de planilhas.',
     features: [
-      'Alertas antes de vencer: preventiva, licenciamento e estoque mínimo',
-      'Integração com o Sienge, sem digitar duas vezes',
-      'Relatórios em PDF e Excel na hora',
+      'Alertas de vencimento: manutenção preventiva, licenciamento e estoque mínimo',
+      'Integração com o Sienge, sem retrabalho de digitação',
+      'Relatórios em PDF e Excel sob demanda',
     ],
     tags: ['Construtoras', 'Web e celular', 'Integração Sienge'],
     video: KARGO_PANEL.video,
@@ -126,11 +128,11 @@ export const cases: Case[] = [
     accent: '#E5333B',
     ambient: '#150B0E',
     headline: 'Gestão completa para locadoras de moto.',
-    description: 'Contratos, motos, vistorias e cobrança em um só sistema, que funciona no computador e como app no celular.',
+    description: 'Contratos, motos, vistorias e cobrança em um único sistema, acessível pelo computador e instalável como aplicativo (PWA) no celular.',
     features: [
-      'Cobrança automática pelo WhatsApp, com Pix',
-      'Integração com a Asaas e o Mercado Pago',
-      'Contrato assinado pelo celular e vistoria com fotos',
+      'Cobrança automática via WhatsApp, com Pix',
+      'Integração com Asaas e Mercado Pago',
+      'Assinatura digital de contrato pelo celular e vistoria com registro fotográfico',
     ],
     tags: ['Locadoras de moto', 'App no celular', 'Asaas e Mercado Pago'],
     video: '/assets/video/motuga.mp4',
@@ -158,40 +160,40 @@ export const sectors: Sector[] = [
     id: 'construtora',
     name: 'Construtoras',
     accent: '#F5922F',
-    pain: 'Máquina parada, preventiva esquecida e estoque de obra controlado na planilha.',
-    solution: 'Gestão de ativos, manutenção e almoxarifado em um painel só, com alerta antes do problema.',
+    pain: 'Equipamentos parados, manutenção preventiva negligenciada e estoque de obra controlado em planilhas.',
+    solution: 'Gestão de ativos, manutenção e almoxarifado em um único painel, com alertas preventivos.',
     tag: 'Em produção: Kargo',
   },
   {
     id: 'locadora',
     name: 'Locadoras',
     accent: '#E5333B',
-    pain: 'Contrato em papel, cobrança feita no braço e vistoria sem registro.',
-    solution: 'Contrato assinado no celular, vistoria com fotos e cobrança automática por Pix.',
+    pain: 'Contratos em papel, cobrança manual e vistorias sem registro.',
+    solution: 'Assinatura digital no celular, vistoria com registro fotográfico e cobrança automática por Pix.',
     tag: 'Em produção: Motuga',
   },
   {
     id: 'loja',
     name: 'Lojas',
     accent: '#2FB37A',
-    pain: 'Pedidos espalhados no WhatsApp e um estoque que nunca bate.',
-    solution: 'Pedidos, estoque e avisos ao cliente conectados, do balcão à entrega.',
+    pain: 'Pedidos dispersos no WhatsApp e estoque que não confere com o físico.',
+    solution: 'Pedidos, estoque e notificações ao cliente integrados, do balcão à entrega.',
     tag: 'Exemplo de projeto',
   },
   {
     id: 'clinica',
     name: 'Clínicas',
     accent: '#38B6E8',
-    pain: 'Agenda cheia de faltas e confirmações feitas uma por uma.',
-    solution: 'Agenda online com confirmação automática no WhatsApp e histórico de cada paciente.',
+    pain: 'Agenda com alto índice de faltas e confirmações feitas manualmente.',
+    solution: 'Agendamento online, confirmação automática via WhatsApp e histórico por paciente.',
     tag: 'Exemplo de projeto',
   },
   {
     id: 'industria',
     name: 'Indústrias',
     accent: '#A98BF5',
-    pain: 'Produção sem visibilidade e ordens de serviço que andam no papel.',
-    solution: 'Ordens de produção, apontamento pelo celular e indicadores atualizados na hora.',
+    pain: 'Produção sem visibilidade e ordens de serviço controladas em papel.',
+    solution: 'Ordens de produção, apontamento pelo celular e indicadores atualizados em tempo real.',
     tag: 'Exemplo de projeto',
   },
 ];
@@ -204,10 +206,10 @@ export const modules: { id: ModuleId; label: string }[] = [
   { id: 'financeiro', label: 'Financeiro' },
   { id: 'estoque', label: 'Estoque' },
   { id: 'agenda', label: 'Agenda' },
-  { id: 'whatsapp', label: 'Avisos no WhatsApp' },
+  { id: 'whatsapp', label: 'Notificações no WhatsApp' },
   { id: 'pix', label: 'Cobrança por Pix' },
-  { id: 'app', label: 'App para a equipe' },
-  { id: 'relatorios', label: 'Relatórios PDF e Excel' },
+  { id: 'app', label: 'Aplicativo para a equipe' },
+  { id: 'relatorios', label: 'Relatórios em PDF e Excel' },
 ];
 
 export interface Teaser {
@@ -245,7 +247,7 @@ export const teasers: Teaser[] = [
     code: 'automacao',
     name: null,
     progress: 50,
-    hint: 'Este a equipe ainda não solta.',
+    hint: 'Este a equipe ainda não divulga.',
     peek: { kind: 'sketch' },
   },
 ];

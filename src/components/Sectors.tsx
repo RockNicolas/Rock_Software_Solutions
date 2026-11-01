@@ -45,7 +45,7 @@ function CardBody({ s, index }: { s: Sector; index: number }) {
       <dl>
         <dt>O problema</dt>
         <dd>{s.pain}</dd>
-        <dt>O que a gente constrói</dt>
+        <dt>O que desenvolvemos</dt>
         <dd className="sector-solution">{s.solution}</dd>
       </dl>
     </>
@@ -77,7 +77,7 @@ function SectorCard({ s, index, progress, shift, metrics }: { s: Sector; index: 
 const Intro = () => (
   <div className="sectors-intro">
     <SplitHeading text="Um sistema para cada tipo de negócio" />
-    <p className="lead">Construtora, locadora, loja, clínica ou indústria: o problema muda, e o sistema muda junto. Role para ver.</p>
+    <p className="lead">Construtora, locadora, loja, clínica ou indústria: o desafio muda, e a solução muda junto. Role para ver.</p>
   </div>
 );
 

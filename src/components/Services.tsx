@@ -44,9 +44,9 @@ export default function Services() {
     <motion.section className="section services" id="servicos" ref={ref} style={{ clipPath }}>
       <div className="wrap services-grid">
         <div className="services-copy">
-          <SplitHeading text="O que a gente cria para você" />
+          <SplitHeading text="O que desenvolvemos para você" />
           <Reveal delay={0.15}>
-            <p className="lead">Cada projeto começa entendendo como a sua empresa trabalha. A tecnologia vem depois, no formato certo para o problema.</p>
+            <p className="lead">Cada projeto começa pelo entendimento dos processos da sua empresa. A tecnologia vem depois, na arquitetura adequada ao problema.</p>
           </Reveal>
 
           <div className="service-tabs" role="tablist" aria-orientation="vertical" aria-label="Serviços">

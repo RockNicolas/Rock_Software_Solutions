@@ -180,7 +180,7 @@ export default function Cases() {
         <div className="cases-head">
           <SplitHeading text="Projetos em produção" />
           <Reveal delay={0.15}>
-            <p className="lead">Sistemas que criamos do zero e que hoje rodam no dia a dia de empresas reais.</p>
+            <p className="lead">Sistemas desenvolvidos do zero, hoje em uso na rotina operacional de empresas reais.</p>
           </Reveal>
         </div>
         {cases.map((c, i) => (

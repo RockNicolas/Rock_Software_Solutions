@@ -73,7 +73,7 @@ export default function Hero() {
           </h1>
 
           <motion.p className="hero-lead" {...fade(0.75, ready)}>
-            A Rock cria sistemas, sites e aplicativos do zero, pensados para o jeito que o seu negócio funciona. Da primeira conversa ao suporte depois da entrega.
+            A Rock desenvolve sistemas, sites e aplicativos do zero, alinhados aos processos do seu negócio. Do levantamento de requisitos ao suporte pós-entrega.
           </motion.p>
 
           <motion.div className="ctas" {...fade(0.9, ready)}>

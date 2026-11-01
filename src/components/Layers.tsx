@@ -24,7 +24,7 @@ function StaticLayers() {
       <div className="wrap layers-grid">
         <div>
           <SplitHeading text="Do planejamento ao suporte." />
-          <p className="lead">Todo projeto da Rock é construído em três camadas, uma sobre a outra.</p>
+          <p className="lead">Todo projeto da Rock é estruturado em três camadas, uma sobre a outra.</p>
           <ol className="layer-steps">
             {layers.map((l, i) => (
               <li key={l.title} className="is-active">
@@ -54,7 +54,10 @@ export default function Layers() {
 
 function PinnedLayers() {
   const ref = useRef<HTMLElement>(null);
-  const near = useInView(ref, { margin: '200px 0px' });
+  const near = useInView(ref, { margin: '600px 0px' });
+  // Build the second WebGL context (and compile its shaders) only once the section is about to show.
+  const [built, setBuilt] = useState(false);
+  if (near && !built) setBuilt(true);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
   const explode = useTransform(scrollYProgress, [0, 0.12, 0.9, 1], [0, 1, 1, 0]);
   const activeMV = useTransform(scrollYProgress, stepAt);
@@ -67,7 +70,7 @@ function PinnedLayers() {
         <div className="wrap layers-grid">
           <div className="layers-copy">
             <SplitHeading text="Do planejamento ao suporte." />
-            <p className="lead">Todo projeto da Rock é construído em três camadas, uma sobre a outra. Role para abrir o cubo.</p>
+            <p className="lead">Todo projeto da Rock é estruturado em três camadas, uma sobre a outra. Role para abrir o cubo.</p>
             <ol className="layer-steps">
               {layers.map((l, i) => (
                 <Step key={l.title} index={i} title={l.title} text={l.text} active={active === i} progress={scrollYProgress} />
@@ -75,9 +78,13 @@ function PinnedLayers() {
             </ol>
           </div>
           <div className="layers-visual">
-            <Suspense fallback={<CubeSVG />}>
-              <Cube3D mode="layers" running={near} explode={explode} active={activeMV} label="Cubo da Rock se abrindo em três camadas: planejamento, desenvolvimento e suporte." />
-            </Suspense>
+            {built ? (
+              <Suspense fallback={<CubeSVG />}>
+                <Cube3D mode="layers" running={near} explode={explode} active={activeMV} label="Cubo da Rock se abrindo em três camadas: planejamento, desenvolvimento e suporte." />
+              </Suspense>
+            ) : (
+              <CubeSVG />
+            )}
             <AnimatePresence>
               {active >= 0 && (
                 <motion.p

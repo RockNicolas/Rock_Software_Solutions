@@ -15,17 +15,17 @@ interface Stat {
 }
 
 const stats: Stat[] = [
-  { from: 0, to: 2, label: 'sistemas nossos rodando em empresas reais' },
+  { from: 0, to: 2, label: 'sistemas próprios em produção em empresas reais' },
   { from: 0, to: 4, suffix: ' anos', label: 'desenvolvendo software' },
-  { from: 0, to: 3, label: 'camadas em todo projeto: planejar, construir, cuidar' },
-  { from: 99, to: 0, label: 'templates prontos. Tudo nasce do zero' },
+  { from: 0, to: 3, label: 'camadas em todo projeto: planejamento, desenvolvimento e suporte' },
+  { from: 99, to: 0, label: 'templates prontos. Todo projeto é desenvolvido do zero' },
 ];
 
 /** Share of the pinned scroll spent flying into the letter. */
 const ZOOM: [number, number] = [0.06, 0.52];
 
 /** The real Kargo panel, looping its overview stretch while on screen. */
-function Video({ className, style }: { className?: string; style?: React.ComponentProps<typeof motion.video>['style'] }) {
+function Video() {
   const ref = useRef<HTMLVideoElement>(null);
   const inView = useInView(ref, { margin: '200px 0px' });
   useVideoSegment(ref, KARGO_PANEL.overview.segment);
@@ -35,7 +35,7 @@ function Video({ className, style }: { className?: string; style?: React.Compone
     if (inView) v.play().catch(() => undefined);
     else v.pause();
   }, [inView]);
-  return <motion.video ref={ref} className={className} style={style} src={KARGO_PANEL.video} poster={KARGO_PANEL.overview.poster} muted loop playsInline preload="metadata" aria-hidden="true" />;
+  return <video ref={ref} src={KARGO_PANEL.video} poster={KARGO_PANEL.overview.poster} muted loop playsInline preload="none" aria-hidden="true" />;
 }
 
 function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
@@ -150,7 +150,6 @@ function PinnedStatement() {
   const frameScale = useTransform(p, [0.06, 0.58], [1.22, 1]);
   const frameY = useTransform(p, [0.56, 0.74], ['0%', '-14%']);
   const frameOpacity = useTransform(p, [0.58, 0.72], [1, 0.3]);
-  const frameFilter = useTransform(p, [0.58, 0.72], ['blur(0px)', 'blur(4px)']);
   const ambientScale = useTransform(p, [0, 1], [1.3, 1.1]);
   const shade = useTransform(p, [0.58, 0.72], [0, 1]);
   const hint = useTransform(p, [0, 0.05], [1, 0]);
@@ -164,8 +163,8 @@ function PinnedStatement() {
   return (
     <section className="statement" ref={ref} aria-label={LINE}>
       <div className="statement-sticky" ref={stageRef}>
-        <Video className="statement-ambient" style={{ scale: ambientScale }} />
-        <motion.div className="statement-frame" style={{ scale: frameScale, y: frameY, opacity: frameOpacity, filter: frameFilter }} aria-hidden="true">
+        <motion.img className="statement-ambient" src={KARGO_PANEL.ambient} alt="" aria-hidden="true" style={{ scale: ambientScale }} />
+        <motion.div className="statement-frame" style={{ scale: frameScale, y: frameY, opacity: frameOpacity }} aria-hidden="true">
           <div className="browser-bar">
             <i />
             <i />
@@ -204,7 +203,7 @@ function PinnedStatement() {
 
         <motion.div className="wrap statement-copy" style={{ opacity: copy }}>
           <p className="statement-kicker">
-            Kargo, gestão de ativos que criamos para construtoras ·{' '}
+            Kargo, sistema de gestão de ativos que desenvolvemos para construtoras ·{' '}
             <a href={KARGO_SITE.url} target="_blank" rel="noopener">
               {KARGO_SITE.label} <ExternalIcon size={13} />
             </a>
@@ -231,7 +230,7 @@ function StaticStatement() {
   return (
     <section className="statement statement-static" aria-label={LINE}>
       <div className="statement-sticky">
-        <Video className="statement-ambient" />
+        <img className="statement-ambient" src={KARGO_PANEL.ambient} alt="" aria-hidden="true" />
         <div className="statement-shade" aria-hidden="true" />
         <div className="wrap statement-copy">
           <p className="statement-line">{LINE}</p>

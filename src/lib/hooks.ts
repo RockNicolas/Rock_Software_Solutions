@@ -1,9 +1,12 @@
 import { useEffect, useState, type RefObject } from 'react';
 import { useMotionTemplate, useScroll, useTransform } from 'motion/react';
 
-/** True when the browser can create a WebGL context. */
+/** True when the browser can create a WebGL context and the device is strong enough to run the 3D cube smoothly. */
 export function useWebGL() {
   const [ok] = useState(() => {
+    // shortcut: core/memory counts are a rough proxy for a weak phone, replace with a real GPU benchmark if it misfires.
+    const nav = navigator as Navigator & { deviceMemory?: number };
+    if ((nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 2) return false;
     try {
       const c = document.createElement('canvas');
       return !!(c.getContext('webgl2') || c.getContext('webgl'));
