@@ -224,11 +224,11 @@ export interface Teaser {
   peek: { kind: 'phone' | 'desktop'; src: string; alt: string } | { kind: 'sketch' };
 }
 
-/** What the team is producing. Only Aprovetech is named. */
+/** What the team is producing. None is named yet. */
 export const teasers: Teaser[] = [
   {
     code: 'aprovacoes',
-    name: 'Aprovetech',
+    name: null,
     progress: 85,
     hint: 'O que ele faz de fato, a equipe ainda segura.',
     clues: ['No celular', 'No Sienge', 'Sem o computador'],

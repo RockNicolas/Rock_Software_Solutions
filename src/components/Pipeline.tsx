@@ -50,7 +50,7 @@ export default function Pipeline() {
             O que vem por aí
           </h2>
           <p className="pipeline-text">
-            A equipe está em desenvolvimento de três projetos para construtora. Um já tem nome. Os outros dois seguem no cadeado, integrados ao <strong>Sienge</strong>.
+            A equipe está em desenvolvimento de três projetos para construtora. Todos seguem no cadeado, integrados ao <strong>Sienge</strong>.
           </p>
         </Reveal>
 
@@ -144,7 +144,7 @@ function Peek({ peek }: { peek: Teaser['peek'] }) {
           <img src={peek.src} alt="" loading="lazy" decoding="async" />
         </span>
       )}
-      <small>{peek.kind === 'sketch' ? 'Esboço' : 'Prévia · dados fictícios'}</small>
+      <small>{peek.kind === 'sketch' ? 'Esboço' : 'Um vislumbre'}</small>
     </span>
   );
 }
@@ -155,7 +155,7 @@ function Sketch() {
   const line = { stroke: '#7FB1EC', strokeWidth: 1.4, strokeDasharray: '4 4', fill: 'none' };
   const label = { fill: '#D5E4F2', fontSize: 11, fontWeight: 700, textAnchor: 'middle' as const };
   return (
-    <svg viewBox="0 0 280 170" className="peek-sketch">
+    <svg viewBox="0 0 280 170" className="peek-art">
       {[22, 68, 114].map((y) => (
         <g key={y}>
           <rect x="8" y={y} width="62" height="30" rx="8" {...box} />
