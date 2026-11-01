@@ -4,9 +4,10 @@ import { useMotionTemplate, useScroll, useTransform } from 'motion/react';
 /** True when the browser can create a WebGL context and the device is strong enough to run the 3D cube smoothly. */
 export function useWebGL() {
   const [ok] = useState(() => {
-    // shortcut: core/memory counts are a rough proxy for a weak phone, replace with a real GPU benchmark if it misfires.
+    // shortcut: core/memory counts are a rough proxy for a very weak phone, replace with a real GPU benchmark if it misfires.
+    // Kept loose on purpose: iPhones report only 4 cores and mid-range Androids 4–8, and they run the cube fine now that startup is cheap.
     const nav = navigator as Navigator & { deviceMemory?: number };
-    if ((nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 2) return false;
+    if ((nav.hardwareConcurrency ?? 8) <= 2 || (nav.deviceMemory ?? 8) <= 1) return false;
     try {
       const c = document.createElement('canvas');
       return !!(c.getContext('webgl2') || c.getContext('webgl'));
