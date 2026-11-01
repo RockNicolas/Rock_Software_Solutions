@@ -11,6 +11,8 @@ import Services from './components/Services';
 import Sectors from './components/Sectors';
 import Layers from './components/Layers';
 import Cases from './components/Cases';
+import Pipeline from './components/Pipeline';
+import WhatsAppFab from './components/WhatsAppFab';
 import Builder from './components/Builder';
 import SectionNav from './components/SectionNav';
 import Founder from './components/Founder';
@@ -56,11 +58,13 @@ export default function App() {
           <Sectors />
           <Layers />
           <Cases />
+          <Pipeline />
           <Builder />
           <Founder />
           <Contact />
         </main>
         <Footer />
+        <WhatsAppFab />
       </IntroContext.Provider>
     </MotionConfig>
   );

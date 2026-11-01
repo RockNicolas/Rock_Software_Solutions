@@ -86,6 +86,16 @@ export default function Hero() {
               Ver projetos
             </a>
           </motion.div>
+
+          <motion.ul className="hero-proof" aria-label="Destaques" {...fade(1.05, ready)}>
+            <li>
+              <b>2</b> sistemas em produção
+            </li>
+            <li>
+              <b>3</b> novos projetos a caminho
+            </li>
+            <li>Integração com o Sienge via API</li>
+          </motion.ul>
         </motion.div>
 
         <motion.div className="hero-visual" style={{ y: cubeY, scale: cubeScale, opacity: cubeOpacity }} data-cursor={webgl ? 'Arraste' : undefined}>

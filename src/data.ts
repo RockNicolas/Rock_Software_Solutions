@@ -209,3 +209,28 @@ export const modules: { id: ModuleId; label: string }[] = [
   { id: 'app', label: 'App para a equipe' },
   { id: 'relatorios', label: 'Relatórios PDF e Excel' },
 ];
+
+export interface Teaser {
+  code: string;
+  title: string;
+  hint: string;
+}
+
+/** Projects being built right now. Kept deliberately vague: hints, not names. */
+export const teasers: Teaser[] = [
+  {
+    code: 'aprovacoes',
+    title: 'Aprovações sem papel',
+    hint: 'Do canteiro ao escritório, sem caçar assinatura.',
+  },
+  {
+    code: 'suprimentos',
+    title: 'Suprimentos em tempo real',
+    hint: 'O que foi pedido, o que atrasou e para onde vai o dinheiro da obra.',
+  },
+  {
+    code: 'automacao',
+    title: 'Automação de ponta a ponta',
+    hint: 'Compras, ERP, banco e BI conversando sozinhos.',
+  },
+];

@@ -8,6 +8,7 @@ const sections = [
   { id: 'setores', label: 'Para cada negócio' },
   { id: 'processo', label: 'Como trabalhamos' },
   { id: 'projetos', label: 'Projetos' },
+  { id: 'em-breve', label: 'Em breve' },
   { id: 'monte', label: 'Monte o seu' },
   { id: 'sobre', label: 'Sobre' },
   { id: 'contato', label: 'Contato' },

@@ -110,10 +110,15 @@ function CaseBlock({ c, index, onEnter }: { c: Case; index: number; onEnter: (id
             ))}
           </ul>
           {c.site && (
-            <a className="case-link" href={c.site.url} target="_blank" rel="noopener">
-              Conhecer o {c.name} <span>{c.site.label}</span>
-              <ExternalIcon size={16} />
-            </a>
+            <div className="case-cta">
+              <a className="case-link" href={c.site.url} target="_blank" rel="noopener">
+                Acessar o site do {c.name}
+                <ExternalIcon size={18} />
+              </a>
+              <span className="case-live">
+                <span className="pulse" aria-hidden="true" /> No ar em <b>{c.site.label}</b>
+              </span>
+            </div>
           )}
         </Reveal>
       </div>
@@ -136,6 +141,13 @@ function CaseBlock({ c, index, onEnter }: { c: Case; index: number; onEnter: (id
                 <span>{c.site?.label ?? `${c.name.toLowerCase()} · gestão de ativos`}</span>
               </div>
               <CaseVideo c={c} />
+              {c.site && (
+                <a className="device-link" href={c.site.url} target="_blank" rel="noopener" data-cursor="Visitar" aria-label={`Abrir o site do ${c.name} em uma nova aba`}>
+                  <span>
+                    Ver o {c.name} ao vivo <ExternalIcon size={16} />
+                  </span>
+                </a>
+              )}
             </Tilt>
           ) : (
             <Tilt className="device-phone">

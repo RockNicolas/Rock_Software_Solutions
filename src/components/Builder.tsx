@@ -159,6 +159,17 @@ export default function Builder() {
     return list ? `Olá! Montei no site da Rock um sistema${who} com: ${list}. Podemos conversar?` : 'Olá! Quero montar um sistema sob medida com a Rock.';
   }, [ordered, name]);
 
+  const cta = (
+    <>
+      <Magnetic>
+        <a className="btn btn-primary btn-lg" href={whatsappLink(message)} target="_blank" rel="noopener">
+          <ChatIcon /> Quero um sistema assim
+        </a>
+      </Magnetic>
+      <p>Abre o WhatsApp com os módulos que você escolheu.</p>
+    </>
+  );
+
   return (
     <section className="section builder" id="monte">
       <div className="wrap">
@@ -199,14 +210,7 @@ export default function Builder() {
                 })}
               </div>
             </fieldset>
-            <div className="builder-cta">
-              <Magnetic>
-                <a className="btn btn-primary btn-lg" href={whatsappLink(message)} target="_blank" rel="noopener">
-                  <ChatIcon /> Quero um sistema assim
-                </a>
-              </Magnetic>
-              <p>Abre o WhatsApp com os módulos que você escolheu.</p>
-            </div>
+            <div className="builder-cta builder-cta-side">{cta}</div>
           </Reveal>
 
           <Reveal delay={0.1} y={60}>
@@ -267,6 +271,9 @@ export default function Builder() {
               </div>
             </div>
           </Reveal>
+
+          {/* On phones the button comes after the preview, so the preview sits right under the modules. */}
+          <div className="builder-cta builder-cta-below">{cta}</div>
         </div>
       </div>
     </section>
