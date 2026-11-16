@@ -1,9 +1,11 @@
 import { useEffect, useState, type RefObject } from 'react';
 import { useMotionTemplate, useScroll, useTransform } from 'motion/react';
+import { startedLite, useLite } from './perf';
 
 /** True when the browser can create a WebGL context and the device is strong enough to run the 3D cube smoothly. */
 export function useWebGL() {
   const [ok] = useState(() => {
+    if (startedLite) return false;
     // shortcut: core/memory counts are a rough proxy for a very weak phone, replace with a real GPU benchmark if it misfires.
     // Kept loose on purpose: iPhones report only 4 cores and mid-range Androids 4–8, and they run the cube fine now that startup is cheap.
     const nav = navigator as Navigator & { deviceMemory?: number };
@@ -67,5 +69,7 @@ export function useCardReveal(ref: RefObject<HTMLElement | null>) {
   const scrollYProgress = useScrollProgress(ref, ['start end', 'start 15%']);
   const side = useTransform(scrollYProgress, [0, 1], [5, 0]);
   const radius = useTransform(scrollYProgress, [0, 1], [56, 0]);
-  return useMotionTemplate`inset(0% ${side}% 0% ${side}% round ${radius}px ${radius}px 0px 0px)`;
+  const clip = useMotionTemplate`inset(0% ${side}% 0% ${side}% round ${radius}px ${radius}px 0px 0px)`;
+  // Re-clipping a whole section on every scroll frame is costly to paint, so lite mode skips it.
+  return useLite() ? 'none' : clip;
 }

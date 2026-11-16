@@ -3,6 +3,7 @@ import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useTrans
 import { SplitHeading } from './Reveal';
 import { sectors, type Sector, type SectorId } from '../data';
 import { useScrollProgress } from '../lib/hooks';
+import { startedLite } from '../lib/perf';
 
 const draw = { strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, fill: 'none', strokeWidth: 2.2 };
 
@@ -176,5 +177,5 @@ function StaticSectors() {
 
 export default function Sectors() {
   const reduced = useReducedMotion();
-  return reduced ? <StaticSectors /> : <PinnedSectors />;
+  return reduced || startedLite ? <StaticSectors /> : <PinnedSectors />;
 }

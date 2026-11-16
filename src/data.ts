@@ -70,7 +70,7 @@ export const layers: Layer[] = [
 ];
 
 export interface Case {
-  id: 'kargo' | 'motuga';
+  id: 'kargo' | 'motuga' | 'vettori' | 'aprovetech';
   name: string;
   accent: string;
   ambient: string;
@@ -78,8 +78,17 @@ export interface Case {
   description: string;
   features: string[];
   tags: string[];
-  video: string;
-  poster: string;
+  /** Screen recording of the product. Cases without one show `image` instead. */
+  video?: string;
+  poster?: string;
+  /** Still screen (demo data) used when there is no recording. */
+  image?: string;
+  /** Name with its article for sentences like "o site {of}". Defaults to "do {name}". */
+  of?: string;
+  /** Alt text for `image` when it shows a real site instead of demo data. */
+  imageAlt?: string;
+  /** Shown in place of "No ar em ..." when the product has no public site yet. */
+  status?: string;
   /** Loop only this stretch of the video, in seconds. */
   segment?: readonly [number, number];
   /** Width / height of the footage, when it is not the device's default shape. */
@@ -90,6 +99,7 @@ export interface Case {
 }
 
 export const KARGO_SITE = { url: 'https://www.kargo-web.com/', label: 'kargo-web.com' };
+export const VETTORI_SITE = { url: 'https://clinicavettori.com.br/', label: 'clinicavettori.com.br' };
 
 /** Screen recording of the real Kargo panel (from kargo-web.com). */
 export const KARGO_PANEL = {
@@ -139,6 +149,42 @@ export const cases: Case[] = [
     poster: '/assets/video/motuga-poster.jpg',
     device: 'phone',
   },
+  {
+    id: 'vettori',
+    name: 'Clínica Vettori',
+    of: 'da Clínica Vettori',
+    accent: '#FF8FB4',
+    ambient: '#150A10',
+    headline: 'Landing page de uma clínica multiprofissional, feita para o paciente agendar.',
+    description: 'A Vettori Saúde Integral, em Paraguaçu (MG), reúne médicos, dentista, nutrição e saúde mental. A página apresenta cada especialidade e deixa o contato a um toque.',
+    features: [
+      'Perfil de cada profissional, em um carrossel fácil de navegar',
+      'Depoimentos de pacientes e perguntas frequentes para tirar dúvidas antes da consulta',
+      'Botão de WhatsApp e de agendamento sempre à mão, no celular e no computador',
+    ],
+    tags: ['Clínicas', 'Landing page', 'Pronto para celular'],
+    image: '/assets/vettori-site.jpg',
+    imageAlt: 'Página inicial do site da Clínica Vettori no computador',
+    site: VETTORI_SITE,
+    device: 'browser',
+  },
+  {
+    id: 'aprovetech',
+    name: 'AproveTech',
+    accent: '#FF7A3D',
+    ambient: '#141012',
+    headline: 'Aprovações de sistemas ERP no celular, em poucos toques.',
+    description: 'Pedidos de compra, solicitações e mapas de cotação chegam ao aprovador com valor, obra e motivo da pendência, sem abrir o computador.',
+    features: [
+      'Aprovar ou reprovar pelo celular, com motivo obrigatório na reprovação',
+      'Aviso quando o documento muda no Sienge, antes de você decidir',
+      'Aprovação em lote, filtros por obra, tipo e urgência, e histórico das decisões',
+    ],
+    tags: ['Construtoras', 'App no celular', 'Integração Sienge'],
+    image: '/assets/aprovetech-lista.jpg',
+    status: 'Reta final de desenvolvimento',
+    device: 'phone',
+  },
 ];
 
 export const needs = ['Sistema', 'Site', 'Aplicativo', 'Integração', 'Ainda não sei'];
@@ -154,7 +200,7 @@ export interface Sector {
   tag: string;
 }
 
-/** Kinds of business we build for. The first two are live projects; the rest are examples of what fits. */
+/** Kinds of business we build for. The first two are live systems, Clínicas has a live site; the rest are examples of what fits. */
 export const sectors: Sector[] = [
   {
     id: 'construtora',
@@ -186,7 +232,7 @@ export const sectors: Sector[] = [
     accent: '#38B6E8',
     pain: 'Agenda com alto índice de faltas e confirmações feitas manualmente.',
     solution: 'Agendamento online, confirmação automática via WhatsApp e histórico por paciente.',
-    tag: 'Exemplo de projeto',
+    tag: 'No ar: Clínica Vettori',
   },
   {
     id: 'industria',
@@ -213,7 +259,7 @@ export const modules: { id: ModuleId; label: string }[] = [
 ];
 
 export interface Teaser {
-  code: 'aprovacoes' | 'suprimentos' | 'automacao';
+  code: 'suprimentos' | 'automacao';
   /** Public name. Empty means the project stays locked. */
   name: string | null;
   /** How far along the team is, 0–100. */
@@ -228,14 +274,6 @@ export interface Teaser {
 
 /** What the team is producing. None is named yet. */
 export const teasers: Teaser[] = [
-  {
-    code: 'aprovacoes',
-    name: null,
-    progress: 85,
-    hint: 'O que ele faz de fato, a equipe ainda segura.',
-    clues: ['No celular', 'No Sienge', 'Sem o computador'],
-    peek: { kind: 'phone', src: '/previews/aprovetech.jpg', alt: 'Tela do app de aprovações no celular, com dados fictícios' },
-  },
   {
     code: 'suprimentos',
     name: null,

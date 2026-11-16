@@ -7,6 +7,7 @@ import { ChatIcon, DragIcon } from './Icons';
 import { audiences, whatsappLink } from '../data';
 import { useScrollProgress, useWebGL } from '../lib/hooks';
 import { useIntroDone } from '../lib/intro';
+import { useLite } from '../lib/perf';
 
 const Cube3D = lazy(() => import('../three/Cube3D'));
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -32,7 +33,7 @@ function Line({ index, drift, progress, ready, children }: { index: number; drif
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { margin: '0px 0px -10% 0px' });
-  const webgl = useWebGL();
+  const webgl = useWebGL() && !useLite();
   const ready = useIntroDone();
   const [touched, setTouched] = useState(false);
 

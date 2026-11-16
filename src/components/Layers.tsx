@@ -4,6 +4,7 @@ import CubeSVG from './CubeSVG';
 import { SplitHeading } from './Reveal';
 import { layers } from '../data';
 import { useWebGL } from '../lib/hooks';
+import { useLite } from '../lib/perf';
 
 const Cube3D = lazy(() => import('../three/Cube3D'));
 
@@ -55,6 +56,8 @@ export default function Layers() {
 function PinnedLayers() {
   const ref = useRef<HTMLElement>(null);
   const near = useInView(ref, { margin: '600px 0px' });
+  // Lite mode swaps the cube for the flat drawing without touching the section's height.
+  const lite = useLite();
   // Build the second WebGL context (and compile its shaders) only once the section is about to show.
   const [built, setBuilt] = useState(false);
   if (near && !built) setBuilt(true);
@@ -78,7 +81,7 @@ function PinnedLayers() {
             </ol>
           </div>
           <div className="layers-visual">
-            {built ? (
+            {built && !lite ? (
               <Suspense fallback={<CubeSVG />}>
                 <Cube3D mode="layers" running={near} explode={explode} active={activeMV} label="Cubo da Rock se abrindo em três camadas: planejamento, desenvolvimento e suporte." />
               </Suspense>

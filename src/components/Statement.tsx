@@ -4,6 +4,7 @@ import { motion, useInView, useMotionValueEvent, useReducedMotion, useTransform,
 import { ExternalIcon } from './Icons';
 import { KARGO_PANEL, KARGO_SITE } from '../data';
 import { useScrollProgress, useVideoSegment } from '../lib/hooks';
+import { startedLite } from '../lib/perf';
 
 const LINE = 'Nenhuma empresa é igual. O software dela também não deveria ser.';
 
@@ -250,5 +251,5 @@ function StaticStatement() {
 
 export default function Statement() {
   const reduced = useReducedMotion();
-  return reduced ? <StaticStatement /> : <PinnedStatement />;
+  return reduced || startedLite ? <StaticStatement /> : <PinnedStatement />;
 }

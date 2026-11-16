@@ -38,7 +38,12 @@ function Tilt({ children, className }: { children: React.ReactNode; className: s
 }
 
 /** Muted loop that only plays while it is on screen. */
-function CaseVideo({ c }: { c: Case }) {
+function CaseMedia({ c }: { c: Case }) {
+  if (c.video) return <CaseVideo c={c} src={c.video} />;
+  return <img className="case-still" src={c.image} alt={c.imageAlt ?? `Tela do ${c.name} no celular, com dados fictícios`} loading="lazy" decoding="async" />;
+}
+
+function CaseVideo({ c, src }: { c: Case; src: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const inView = useInView(ref, { amount: 0.3 });
   useVideoSegment(ref, c.segment);
@@ -49,7 +54,7 @@ function CaseVideo({ c }: { c: Case }) {
     else v.pause();
   }, [inView]);
   return (
-    <video ref={ref} src={c.video} poster={c.poster} muted loop playsInline preload="metadata" aria-label={`Telas do ${c.name}`} style={c.ratio ? { aspectRatio: c.ratio } : undefined} />
+    <video ref={ref} src={src} poster={c.poster} muted loop playsInline preload="metadata" aria-label={`Telas do ${c.name}`} style={c.ratio ? { aspectRatio: c.ratio } : undefined} />
   );
 }
 
@@ -76,6 +81,20 @@ function CaseBlock({ c, index, onEnter }: { c: Case; index: number; onEnter: (id
         <Reveal>
           {c.id === 'kargo' ? (
             <img className="case-logo-kargo" src="/assets/kargo-logo.png" alt="Kargo" />
+          ) : c.id === 'vettori' ? (
+            <div className="case-logo-motuga case-logo-vettori">
+              <span>
+                Vettori<em>.</em>
+              </span>
+              <small>Saúde Integral</small>
+            </div>
+          ) : c.id === 'aprovetech' ? (
+            <div className="case-logo-motuga case-logo-aprovetech">
+              <img src="/assets/aprovetech-logo.svg" alt="" />
+              <span>
+                Aprove<em>Tech</em>
+              </span>
+            </div>
           ) : (
             <div className="case-logo-motuga">
               <img src="/assets/motuga-icon.png" alt="" />
@@ -112,11 +131,18 @@ function CaseBlock({ c, index, onEnter }: { c: Case; index: number; onEnter: (id
           {c.site && (
             <div className="case-cta">
               <a className="case-link" href={c.site.url} target="_blank" rel="noopener">
-                Acessar o site do {c.name}
+                Acessar o site {c.of ?? `do ${c.name}`}
                 <ExternalIcon size={18} />
               </a>
               <span className="case-live">
                 <span className="pulse" aria-hidden="true" /> No ar em <b>{c.site.label}</b>
+              </span>
+            </div>
+          )}
+          {c.status && (
+            <div className="case-cta">
+              <span className="case-live">
+                <span className="pulse" aria-hidden="true" /> <b>{c.status}</b>
               </span>
             </div>
           )}
@@ -140,11 +166,11 @@ function CaseBlock({ c, index, onEnter }: { c: Case; index: number; onEnter: (id
                 <i />
                 <span>{c.site?.label ?? `${c.name.toLowerCase()} · gestão de ativos`}</span>
               </div>
-              <CaseVideo c={c} />
+              <CaseMedia c={c} />
               {c.site && (
-                <a className="device-link" href={c.site.url} target="_blank" rel="noopener" data-cursor="Visitar" aria-label={`Abrir o site do ${c.name} em uma nova aba`}>
+                <a className="device-link" href={c.site.url} target="_blank" rel="noopener" data-cursor="Visitar" aria-label={`Abrir o site ${c.of ?? `do ${c.name}`} em uma nova aba`}>
                   <span>
-                    Ver o {c.name} ao vivo <ExternalIcon size={16} />
+                    Ver o site {c.of ?? `do ${c.name}`} ao vivo <ExternalIcon size={16} />
                   </span>
                 </a>
               )}
@@ -152,7 +178,7 @@ function CaseBlock({ c, index, onEnter }: { c: Case; index: number; onEnter: (id
           ) : (
             <Tilt className="device-phone">
               <span className="phone-notch" aria-hidden="true" />
-              <CaseVideo c={c} />
+              <CaseMedia c={c} />
             </Tilt>
           )}
         </motion.div>
@@ -178,9 +204,9 @@ export default function Cases() {
     >
       <div className="wrap">
         <div className="cases-head">
-          <SplitHeading text="Projetos em produção" />
+          <SplitHeading text="Nossos projetos" />
           <Reveal delay={0.15}>
-            <p className="lead">Sistemas desenvolvidos do zero, hoje em uso na rotina operacional de empresas reais.</p>
+            <p className="lead">Sistemas desenvolvidos do zero. Kargo, Motuga e a Clínica Vettori já estão no ar, em uso por empresas reais; o AproveTech está na reta final.</p>
           </Reveal>
         </div>
         {cases.map((c, i) => (

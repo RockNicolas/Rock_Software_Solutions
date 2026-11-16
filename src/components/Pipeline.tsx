@@ -8,7 +8,7 @@ import { teasers, whatsappLink, type Teaser } from '../data';
 const CYCLE = 7000;
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/** Three projects in development. One named, two still locked, each with its real progress. */
+/** Projects in development, still locked, each with its real progress. */
 export default function Pipeline() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
@@ -50,7 +50,7 @@ export default function Pipeline() {
             O que vem por aí
           </h2>
           <p className="pipeline-text">
-            A equipe está desenvolvendo três projetos para construtoras, todos integrados ao <strong>Sienge</strong> e ainda sob sigilo.
+            A equipe está desenvolvendo dois projetos para construtoras, todos integrados ao <strong>Sienge</strong> e ainda sob sigilo.
           </p>
         </Reveal>
 
